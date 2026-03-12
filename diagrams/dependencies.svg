@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="600" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1b263b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a192f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60efff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c4dff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c4dff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b388ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea80fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="galaxyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="600" fill="url(#auroraBg)"/>
+  <circle cx="50" cy="80" r="1.5" fill="white" opacity="0.8"/><circle cx="280" cy="90" r="2" fill="white" opacity="0.9"/>
+  <circle cx="650" cy="45" r="2" fill="white" opacity="0.8"/><circle cx="850" cy="35" r="1" fill="white" opacity="0.9"/>
+  <circle cx="70" cy="550" r="1" fill="white" opacity="0.5"/><circle cx="830" cy="520" r="1.5" fill="white" opacity="0.7"/>
+  <ellipse cx="450" cy="80" rx="400" ry="50" fill="url(#auroraGreen)" opacity="0.12" filter="url(#glowStrong)"/>
+  <ellipse cx="300" cy="550" rx="350" ry="40" fill="url(#auroraBlue)" opacity="0.1" filter="url(#glowStrong)"/>
+  <text x="450" y="50" text-anchor="middle" fill="url(#auroraGreen)" font-size="26" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📦 依赖库 Dependencies 📦</text>
+  <ellipse cx="450" cy="300" rx="100" ry="50" fill="rgba(255,215,0,0.25)" stroke="#ffd700" stroke-width="3" filter="url(#glow)"/>
+  <text x="450" y="295" text-anchor="middle" fill="#ffd700" font-size="16" font-family="KaiTi, STKaiti, serif" font-weight="bold">Water Sort</text>
+  <text x="450" y="315" text-anchor="middle" fill="#ffaa00" font-size="12" font-family="KaiTi, STKaiti, serif">Puzzle</text>
+
+  <rect x="60" y="100" width="200" height="120" rx="15" fill="rgba(0,255,135,0.12)" stroke="url(#auroraGreen)" stroke-width="2" filter="url(#glow)"/>
+  <text x="160" y="130" text-anchor="middle" fill="#00ff87" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🎨 OpenGL</text>
+  <text x="160" y="155" text-anchor="middle" fill="#60efff" font-size="13" font-family="KaiTi, STKaiti, serif">版本: 4.6</text>
+  <text x="160" y="180" text-anchor="middle" fill="#00d4aa" font-size="11" font-family="KaiTi, STKaiti, serif">3D图形渲染核心</text>
+  <text x="160" y="200" text-anchor="middle" fill="#00d4aa" font-size="11" font-family="KaiTi, STKaiti, serif">顶点/片段着色器</text>
+  <path d="M260 160 Q350 200 360 260" stroke="#00ff87" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="360" cy="260" r="4" fill="#00ff87"/>
+  <rect x="640" y="100" width="200" height="120" rx="15" fill="rgba(96,239,255,0.12)" stroke="url(#auroraBlue)" stroke-width="2" filter="url(#glow)"/>
+  <text x="740" y="130" text-anchor="middle" fill="#60efff" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">⚡ GLEW</text>
+  <text x="740" y="155" text-anchor="middle" fill="#00bcd4" font-size="13" font-family="KaiTi, STKaiti, serif">版本: 2.1.0</text>
+  <text x="740" y="180" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">OpenGL扩展加载</text>
+  <text x="740" y="200" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">glew32.dll</text>
+  <path d="M640 160 Q550 200 540 260" stroke="#60efff" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="540" cy="260" r="4" fill="#60efff"/>
+  <rect x="60" y="380" width="200" height="120" rx="15" fill="rgba(124,77,255,0.12)" stroke="url(#auroraPurple)" stroke-width="2" filter="url(#glow)"/>
+  <text x="160" y="410" text-anchor="middle" fill="#b388ff" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🖼️ FreeGLUT</text>
+  <text x="160" y="435" text-anchor="middle" fill="#7c4dff" font-size="13" font-family="KaiTi, STKaiti, serif">版本: 3.0</text>
+  <text x="160" y="460" text-anchor="middle" fill="#b388ff" font-size="11" font-family="KaiTi, STKaiti, serif">窗口管理</text>
+  <text x="160" y="480" text-anchor="middle" fill="#b388ff" font-size="11" font-family="KaiTi, STKaiti, serif">输入事件处理</text>
+  <path d="M260 440 Q350 400 360 340" stroke="#b388ff" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="360" cy="340" r="4" fill="#b388ff"/>
+  <rect x="640" y="380" width="200" height="120" rx="15" fill="rgba(234,128,252,0.12)" stroke="#ea80fc" stroke-width="2" filter="url(#glow)"/>
+  <text x="740" y="410" text-anchor="middle" fill="#ea80fc" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🔧 GLU</text>
+  <text x="740" y="435" text-anchor="middle" fill="#ea80fc" font-size="13" font-family="KaiTi, STKaiti, serif">OpenGL工具库</text>
+  <text x="740" y="460" text-anchor="middle" fill="#ea80fc" font-size="11" font-family="KaiTi, STKaiti, serif">gluCylinder/gluSphere</text>
+  <text x="740" y="480" text-anchor="middle" fill="#ea80fc" font-size="11" font-family="KaiTi, STKaiti, serif">gluLookAt/gluPerspective</text>
+  <path d="M640 440 Q550 400 540 340" stroke="#ea80fc" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="540" cy="340" r="4" fill="#ea80fc"/>
+  <rect x="350" y="480" width="200" height="100" rx="15" fill="rgba(255,215,0,0.12)" stroke="url(#galaxyGold)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="510" text-anchor="middle" fill="#ffd700" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🪟 Windows API</text>
+  <text x="450" y="535" text-anchor="middle" fill="#ffaa00" font-size="11" font-family="KaiTi, STKaiti, serif">comdlg32.lib</text>
+  <text x="450" y="555" text-anchor="middle" fill="#ffaa00" font-size="11" font-family="KaiTi, STKaiti, serif">文件对话框支持</text>
+  <path d="M450 350 L450 480" stroke="#ffd700" stroke-width="2" fill="none" opacity="0.7"/>
+  <circle cx="450" cy="350" r="4" fill="#ffd700"/>
+  <rect x="280" y="85" width="340" height="55" rx="10" fill="rgba(0,0,0,0.4)" stroke="#60efff" stroke-width="1"/>
+  <text x="450" y="108" text-anchor="middle" fill="#60efff" font-size="12" font-family="KaiTi, STKaiti, serif">📚 链接库文件</text>
+  <text x="450" y="128" text-anchor="middle" fill="#00ff87" font-size="10" font-family="Consolas, monospace">glew32.lib | freeglut.lib | opengl32.lib | glu32.lib</text>
+</svg>

@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1b263b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a192f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60efff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c4dff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c4dff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b388ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea80fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="galaxyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="liquidRed" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff6b6b;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#ee5a5a;stop-opacity:0.9" />
+    </linearGradient>
+    <linearGradient id="liquidBlue" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#00bcd4;stop-opacity:0.9" />
+    </linearGradient>
+    <linearGradient id="liquidGreen" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:0.9" />
+      <stop offset="100%" style="stop-color:#00d4aa;stop-opacity:0.9" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 星空背景 -->
+  <rect width="900" height="700" fill="url(#auroraBg)"/>
+  
+  <!-- 星星点缀 -->
+  <circle cx="50" cy="50" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="150" cy="30" r="1" fill="white" opacity="0.6"/>
+  <circle cx="280" cy="65" r="2" fill="white" opacity="0.9"/>
+  <circle cx="400" cy="25" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="520" cy="55" r="1" fill="white" opacity="0.5"/>
+  <circle cx="650" cy="40" r="2" fill="white" opacity="0.8"/>
+  <circle cx="780" cy="60" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="850" cy="35" r="1" fill="white" opacity="0.9"/>
+  <circle cx="100" cy="670" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="300" cy="685" r="1" fill="white" opacity="0.5"/>
+  <circle cx="500" cy="660" r="2" fill="white" opacity="0.8"/>
+  <circle cx="700" cy="675" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="830" cy="655" r="1" fill="white" opacity="0.9"/>
+  
+  <!-- 极光效果 -->
+  <ellipse cx="450" cy="60" rx="400" ry="40" fill="url(#auroraGreen)" opacity="0.12" filter="url(#glowStrong)"/>
+  <ellipse cx="350" cy="680" rx="380" ry="35" fill="url(#auroraBlue)" opacity="0.10" filter="url(#glowStrong)"/>
+  
+  <!-- 标题 -->
+  <text x="450" y="50" text-anchor="middle" fill="url(#auroraBlue)" font-size="26" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">
+    ✦ 液体渲染系统 ✦
+  </text>
+  
+  <!-- 直立渲染区域 -->
+  <rect x="30" y="80" width="400" height="290" rx="15" fill="rgba(96,239,255,0.06)" stroke="url(#auroraBlue)" stroke-width="2" filter="url(#glow)"/>
+  <text x="230" y="115" text-anchor="middle" fill="#60efff" font-size="18" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">◈ 直立状态渲染 ◈</text>
+  
+  <!-- 直立瓶子示意 -->
+  <rect x="80" y="140" width="60" height="150" rx="8" fill="rgba(96,239,255,0.1)" stroke="#60efff" stroke-width="2"/>
+  <!-- 液体层 -->
+  <rect x="86" y="245" width="48" height="38" rx="3" fill="url(#liquidRed)"/>
+  <rect x="86" y="205" width="48" height="38" rx="3" fill="url(#liquidBlue)"/>
+  <rect x="86" y="165" width="48" height="38" rx="3" fill="url(#liquidGreen)"/>
+  <text x="110" y="320" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">分层渲染</text>
+  
+  <!-- 说明 -->
+  <rect x="170" y="140" width="240" height="210" rx="10" fill="rgba(0,0,0,0.2)" stroke="#00d4aa" stroke-width="1"/>
+  <text x="290" y="170" text-anchor="middle" fill="#00ff87" font-size="13" font-weight="bold" font-family="KaiTi, STKaiti, serif">drawLiquid() 直立模式</text>
+  <text x="185" y="200" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">1. 遍历 bottles[i].colors[]</text>
+  <text x="185" y="225" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">2. 每层绘制独立圆柱体</text>
+  <text x="185" y="250" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">3. 高度 = layerHeight × 层数</text>
+  <text x="185" y="275" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">4. 使用 gluCylinder() 绘制</text>
+  <text x="185" y="300" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">5. 顶部 gluDisk() 封口</text>
+  <text x="185" y="325" fill="#ffd700" font-size="9" font-family="KaiTi, STKaiti, serif">✓ 简单高效，适合静态显示</text>
+  
+  <!-- 倾斜渲染区域 -->
+  <rect x="470" y="80" width="400" height="290" rx="15" fill="rgba(124,77,255,0.06)" stroke="url(#auroraPurple)" stroke-width="2" filter="url(#glow)"/>
+  <text x="670" y="115" text-anchor="middle" fill="#b388ff" font-size="18" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">◈ 倾斜状态渲染 ◈</text>
+  
+  <!-- 倾斜瓶子示意 -->
+  <g transform="translate(550,220) rotate(-45)">
+    <rect x="-30" y="-75" width="60" height="150" rx="8" fill="rgba(124,77,255,0.1)" stroke="#7c4dff" stroke-width="2"/>
+    <!-- 液体 - 保持水平 -->
+    <ellipse cx="0" cy="30" rx="25" ry="8" fill="url(#liquidRed)" transform="rotate(45)"/>
+  </g>
+  <text x="550" y="320" text-anchor="middle" fill="#b388ff" font-size="11" font-family="KaiTi, STKaiti, serif">液面水平</text>
+  
+  <!-- 说明 -->
+  <rect x="610" y="140" width="240" height="210" rx="10" fill="rgba(0,0,0,0.2)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="730" y="170" text-anchor="middle" fill="#b388ff" font-size="13" font-weight="bold" font-family="KaiTi, STKaiti, serif">drawLiquid() 倾斜模式</text>
+  <text x="625" y="200" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">1. 计算世界坐标变换</text>
+  <text x="625" y="225" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">2. 液面保持世界水平</text>
+  <text x="625" y="250" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">3. 体积守恒计算</text>
+  <text x="625" y="275" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">4. 椭圆截面渲染</text>
+  <text x="625" y="300" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">5. 动态更新液位高度</text>
+  <text x="625" y="325" fill="#ffd700" font-size="9" font-family="KaiTi, STKaiti, serif">✓ 物理真实，视觉效果好</text>
+
+  <!-- 液流渲染区域 -->
+  <rect x="30" y="390" width="840" height="170" rx="15" fill="rgba(255,215,0,0.06)" stroke="url(#galaxyGold)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="425" text-anchor="middle" fill="#ffd700" font-size="18" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">◈ 液流渲染 (drawStream) ◈</text>
+  
+  <!-- 液流示意 -->
+  <path d="M120 470 Q180 500 180 530" stroke="#ff6b6b" stroke-width="8" fill="none" opacity="0.9" filter="url(#glow)"/>
+  <ellipse cx="180" cy="535" rx="6" ry="3" fill="#ff6b6b" opacity="0.8"/>
+  <text x="150" y="555" text-anchor="middle" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">贝塞尔曲线</text>
+  
+  <!-- 液流参数 -->
+  <rect x="250" y="450" width="280" height="95" rx="10" fill="rgba(0,0,0,0.2)" stroke="#ffaa00" stroke-width="1"/>
+  <text x="390" y="475" text-anchor="middle" fill="#ffd700" font-size="12" font-weight="bold" font-family="KaiTi, STKaiti, serif">液流参数</text>
+  <text x="265" y="500" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• streamProgress: 流动进度 [0,1]</text>
+  <text x="265" y="520" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• 起点: 源瓶瓶口位置</text>
+  <text x="265" y="540" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• 终点: 目标瓶瓶口位置</text>
+  
+  <!-- 渲染技术 -->
+  <rect x="560" y="450" width="290" height="95" rx="10" fill="rgba(0,0,0,0.2)" stroke="#00ff87" stroke-width="1"/>
+  <text x="705" y="475" text-anchor="middle" fill="#00ff87" font-size="12" font-weight="bold" font-family="KaiTi, STKaiti, serif">渲染技术</text>
+  <text x="575" y="500" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• GL_QUAD_STRIP 绘制带状</text>
+  <text x="575" y="520" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• 二次贝塞尔曲线插值</text>
+  <text x="575" y="540" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">• 动态宽度变化模拟重力</text>
+  
+  <!-- 玻璃渲染区域 -->
+  <rect x="30" y="580" width="840" height="90" rx="15" fill="rgba(0,255,135,0.06)" stroke="url(#auroraGreen)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="615" text-anchor="middle" fill="#00ff87" font-size="18" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">◈ 玻璃瓶渲染 (drawGlass) ◈</text>
+  
+  <text x="150" y="650" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">🔮 半透明材质</text>
+  <text x="350" y="650" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">✨ 高光反射</text>
+  <text x="550" y="650" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">🌈 折射效果</text>
+  <text x="750" y="650" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">💎 gluCylinder()</text>
+</svg>

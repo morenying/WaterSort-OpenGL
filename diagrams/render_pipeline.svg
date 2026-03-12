@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="750" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- 极光渐变背景 -->
+    <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1b263b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a192f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60efff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c4dff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c4dff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b388ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea80fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="galaxyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+
+  <!-- 星空背景 -->
+  <rect width="900" height="750" fill="url(#auroraBg)"/>
+  
+  <!-- 星星点缀 -->
+  <circle cx="50" cy="60" r="1.5" fill="white" opacity="0.8"/>
+  <circle cx="150" cy="35" r="1" fill="white" opacity="0.6"/>
+  <circle cx="280" cy="75" r="2" fill="white" opacity="0.9"/>
+  <circle cx="400" cy="28" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="520" cy="58" r="1" fill="white" opacity="0.5"/>
+  <circle cx="650" cy="42" r="2" fill="white" opacity="0.8"/>
+  <circle cx="780" cy="70" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="850" cy="38" r="1" fill="white" opacity="0.9"/>
+  <circle cx="100" cy="720" r="1.5" fill="white" opacity="0.7"/>
+  <circle cx="300" cy="735" r="1" fill="white" opacity="0.5"/>
+  <circle cx="500" cy="710" r="2" fill="white" opacity="0.8"/>
+  <circle cx="700" cy="725" r="1.5" fill="white" opacity="0.6"/>
+  <circle cx="830" cy="705" r="1" fill="white" opacity="0.9"/>
+  
+  <!-- 极光效果 -->
+  <ellipse cx="450" cy="70" rx="400" ry="45" fill="url(#auroraGreen)" opacity="0.12" filter="url(#glowStrong)"/>
+  <ellipse cx="350" cy="730" rx="380" ry="35" fill="url(#auroraBlue)" opacity="0.10" filter="url(#glowStrong)"/>
+  
+  <!-- 标题 -->
+  <text x="450" y="50" text-anchor="middle" fill="url(#auroraGreen)" font-size="26" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">
+    ✦ 渲染管线流程 ✦
+  </text>
+  
+  <!-- display() 主函数 -->
+  <rect x="325" y="80" width="250" height="50" rx="25" fill="rgba(238,90,90,0.2)" stroke="#ff6b6b" stroke-width="3" filter="url(#glow)"/>
+  <text x="450" y="112" text-anchor="middle" fill="#ff6b6b" font-size="18" font-weight="bold" font-family="KaiTi, STKaiti, serif">display()</text>
+  
+  <!-- 箭头 -->
+  <path d="M450 130 L450 155" stroke="url(#auroraGreen)" stroke-width="3" filter="url(#glow)"/>
+  <polygon points="445,155 450,170 455,155" fill="#00ff87" filter="url(#glow)"/>
+  
+  <!-- 清除缓冲区 -->
+  <rect x="300" y="175" width="300" height="45" rx="10" fill="rgba(96,239,255,0.12)" stroke="#60efff" stroke-width="2"/>
+  <text x="450" y="205" text-anchor="middle" fill="#60efff" font-size="13" font-family="KaiTi, STKaiti, serif">glClear(COLOR_BUFFER | DEPTH_BUFFER)</text>
+  
+  <path d="M450 220 L450 245" stroke="url(#auroraGreen)" stroke-width="3" filter="url(#glow)"/>
+  <polygon points="445,245 450,260 455,245" fill="#00ff87" filter="url(#glow)"/>
+  
+  <!-- 相机设置 -->
+  <rect x="300" y="265" width="300" height="55" rx="10" fill="rgba(0,255,135,0.12)" stroke="#00ff87" stroke-width="2"/>
+  <text x="450" y="290" text-anchor="middle" fill="#00ff87" font-size="14" font-weight="bold" font-family="KaiTi, STKaiti, serif">📷 设置相机</text>
+  <text x="450" y="310" text-anchor="middle" fill="#00d4aa" font-size="11" font-family="KaiTi, STKaiti, serif">gluLookAt(球面坐标系)</text>
+  
+  <path d="M450 320 L450 345" stroke="url(#auroraGreen)" stroke-width="3" filter="url(#glow)"/>
+  <polygon points="445,345 450,360 455,345" fill="#00ff87" filter="url(#glow)"/>
+  
+  <!-- 光照设置 -->
+  <rect x="300" y="365" width="300" height="55" rx="10" fill="rgba(255,215,0,0.12)" stroke="#ffd700" stroke-width="2"/>
+  <text x="450" y="390" text-anchor="middle" fill="#ffd700" font-size="14" font-weight="bold" font-family="KaiTi, STKaiti, serif">💡 setupLights()</text>
+  <text x="450" y="410" text-anchor="middle" fill="#ffaa00" font-size="11" font-family="KaiTi, STKaiti, serif">主光 / 补光 / 背光</text>
+
+  <path d="M450 420 L450 445" stroke="url(#auroraGreen)" stroke-width="3" filter="url(#glow)"/>
+  <polygon points="445,445 450,460 455,445" fill="#00ff87" filter="url(#glow)"/>
+  
+  <!-- 场景渲染区域 -->
+  <rect x="80" y="465" width="740" height="160" rx="15" fill="rgba(124,77,255,0.08)" stroke="url(#auroraPurple)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="495" text-anchor="middle" fill="#b388ff" font-size="16" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">◈ 场景渲染 ◈</text>
+  
+  <!-- 地面 -->
+  <rect x="100" y="515" width="140" height="50" rx="8" fill="rgba(0,255,135,0.15)" stroke="#00ff87" stroke-width="2"/>
+  <text x="170" y="545" text-anchor="middle" fill="#00ff87" font-size="12" font-family="KaiTi, STKaiti, serif">🌍 drawFloor()</text>
+  
+  <!-- 瓶子循环 -->
+  <rect x="260" y="515" width="180" height="50" rx="8" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="2"/>
+  <text x="350" y="545" text-anchor="middle" fill="#60efff" font-size="12" font-family="KaiTi, STKaiti, serif">🍾 for: drawBottle(i)</text>
+  
+  <!-- 液流 -->
+  <rect x="460" y="515" width="140" height="50" rx="8" fill="rgba(234,128,252,0.15)" stroke="#ea80fc" stroke-width="2"/>
+  <text x="530" y="545" text-anchor="middle" fill="#ea80fc" font-size="12" font-family="KaiTi, STKaiti, serif">💧 drawStream()</text>
+  
+  <!-- 高亮 -->
+  <rect x="620" y="515" width="140" height="50" rx="8" fill="rgba(255,215,0,0.15)" stroke="#ffd700" stroke-width="2"/>
+  <text x="690" y="545" text-anchor="middle" fill="#ffd700" font-size="12" font-family="KaiTi, STKaiti, serif">✨ 高亮效果</text>
+  
+  <!-- drawBottle 展开 -->
+  <rect x="100" y="580" width="110" height="35" rx="6" fill="rgba(0,188,212,0.2)" stroke="#00bcd4" stroke-width="1"/>
+  <text x="155" y="603" text-anchor="middle" fill="#00bcd4" font-size="10" font-family="KaiTi, STKaiti, serif">drawLiquid()</text>
+  
+  <rect x="225" y="580" width="110" height="35" rx="6" fill="rgba(0,188,212,0.2)" stroke="#00bcd4" stroke-width="1"/>
+  <text x="280" y="603" text-anchor="middle" fill="#00bcd4" font-size="10" font-family="KaiTi, STKaiti, serif">drawGlass()</text>
+  
+  <rect x="350" y="580" width="110" height="35" rx="6" fill="rgba(0,188,212,0.2)" stroke="#00bcd4" stroke-width="1"/>
+  <text x="405" y="603" text-anchor="middle" fill="#00bcd4" font-size="10" font-family="KaiTi, STKaiti, serif">指示器</text>
+  
+  <rect x="475" y="580" width="110" height="35" rx="6" fill="rgba(0,188,212,0.2)" stroke="#00bcd4" stroke-width="1"/>
+  <text x="530" y="603" text-anchor="middle" fill="#00bcd4" font-size="10" font-family="KaiTi, STKaiti, serif">高亮环</text>
+  
+  <path d="M450 625 L450 650" stroke="url(#auroraPurple)" stroke-width="3" filter="url(#glow)"/>
+  <polygon points="445,650 450,665 455,650" fill="#b388ff" filter="url(#glow)"/>
+  
+  <!-- UI渲染 -->
+  <rect x="200" y="670" width="500" height="60" rx="12" fill="rgba(96,239,255,0.10)" stroke="url(#auroraBlue)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="695" text-anchor="middle" fill="#60efff" font-size="14" font-weight="bold" font-family="KaiTi, STKaiti, serif">📊 UI渲染 (2D正交投影)</text>
+  <text x="450" y="718" text-anchor="middle" fill="#00d4aa" font-size="11" font-family="KaiTi, STKaiti, serif">drawGameUI() / drawMenu() / drawWinScreen()</text>
+
+  <!-- 右侧说明面板 - 液体渲染模式 -->
+  <rect x="680" y="175" width="200" height="180" rx="12" fill="rgba(238,90,90,0.10)" stroke="#ff6b6b" stroke-width="2"/>
+  <text x="780" y="200" text-anchor="middle" fill="#ff6b6b" font-size="13" font-weight="bold" font-family="KaiTi, STKaiti, serif">🍾 液体渲染模式</text>
+  
+  <text x="700" y="230" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">直立状态:</text>
+  <text x="710" y="250" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">• 分层绘制圆柱</text>
+  <text x="710" y="268" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">• 每层独立颜色</text>
+  
+  <text x="700" y="295" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">倾斜状态:</text>
+  <text x="710" y="315" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">• 世界坐标渲染</text>
+  <text x="710" y="333" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">• 液面保持水平</text>
+  <text x="710" y="351" fill="#00d4aa" font-size="10" font-family="KaiTi, STKaiti, serif">• 物理体积守恒</text>
+  
+  <!-- 左侧说明面板 - 三光源系统 -->
+  <rect x="20" y="365" width="160" height="120" rx="12" fill="rgba(255,215,0,0.10)" stroke="#ffd700" stroke-width="2"/>
+  <text x="100" y="390" text-anchor="middle" fill="#ffd700" font-size="13" font-weight="bold" font-family="KaiTi, STKaiti, serif">💡 三光源系统</text>
+  <text x="35" y="420" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">GL_LIGHT0: 主光</text>
+  <text x="35" y="445" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">GL_LIGHT1: 补光</text>
+  <text x="35" y="470" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">GL_LIGHT2: 背光</text>
+</svg>

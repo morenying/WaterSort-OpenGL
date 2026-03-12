@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="700" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1b263b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a192f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60efff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c4dff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c4dff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b388ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea80fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="galaxyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="700" fill="url(#auroraBg)"/>
+  <circle cx="50" cy="80" r="1.5" fill="white" opacity="0.8"/><circle cx="150" cy="40" r="1" fill="white" opacity="0.6"/>
+  <circle cx="280" cy="90" r="2" fill="white" opacity="0.9"/><circle cx="650" cy="45" r="2" fill="white" opacity="0.8"/>
+  <circle cx="850" cy="35" r="1" fill="white" opacity="0.9"/><circle cx="70" cy="650" r="1" fill="white" opacity="0.5"/>
+  <circle cx="830" cy="620" r="1.5" fill="white" opacity="0.7"/>
+  <ellipse cx="450" cy="80" rx="400" ry="50" fill="url(#auroraGreen)" opacity="0.12" filter="url(#glowStrong)"/>
+  <ellipse cx="300" cy="650" rx="350" ry="40" fill="url(#auroraBlue)" opacity="0.1" filter="url(#glowStrong)"/>
+  <text x="450" y="50" text-anchor="middle" fill="url(#auroraGreen)" font-size="26" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📁 项目文件结构 Project Structure 📁</text>
+  <rect x="350" y="80" width="200" height="45" rx="10" fill="rgba(255,215,0,0.25)" stroke="#ffd700" stroke-width="3" filter="url(#glow)"/>
+  <text x="380" y="108" fill="#ffd700" font-size="18" font-family="Consolas, monospace">📂 Project/</text>
+
+  <path d="M450 125 L450 155 L150 155 L150 175" stroke="#00ff87" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M450 125 L450 155 L350 155 L350 175" stroke="#60efff" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M450 125 L450 155 L550 155 L550 175" stroke="#7c4dff" stroke-width="2" fill="none" opacity="0.6"/>
+  <path d="M450 125 L450 155 L750 155 L750 175" stroke="#ea80fc" stroke-width="2" fill="none" opacity="0.6"/>
+  <rect x="40" y="175" width="220" height="200" rx="12" fill="rgba(0,255,135,0.1)" stroke="url(#auroraGreen)" stroke-width="2"/>
+  <text x="150" y="200" text-anchor="middle" fill="#00ff87" font-size="15" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📝 源代码文件</text>
+  <rect x="55" y="215" width="190" height="28" rx="5" fill="rgba(0,212,170,0.2)" stroke="#00d4aa" stroke-width="1"/>
+  <text x="65" y="234" fill="#00ff87" font-size="12" font-family="Consolas, monospace">📄 WaterSort.cpp</text>
+  <text x="175" y="234" fill="#60efff" font-size="10" font-family="KaiTi, STKaiti, serif">~2500行</text>
+  <rect x="55" y="250" width="190" height="28" rx="5" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="1"/>
+  <text x="65" y="269" fill="#60efff" font-size="12" font-family="Consolas, monospace">📄 WaterSort.vcxproj</text>
+  <rect x="55" y="285" width="190" height="28" rx="5" fill="rgba(124,77,255,0.15)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="65" y="304" fill="#b388ff" font-size="12" font-family="Consolas, monospace">📄 WaterSort.sln</text>
+  <rect x="55" y="320" width="190" height="28" rx="5" fill="rgba(234,128,252,0.15)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="65" y="339" fill="#ea80fc" font-size="12" font-family="Consolas, monospace">📄 README_Project.md</text>
+  <rect x="280" y="175" width="180" height="200" rx="12" fill="rgba(96,239,255,0.1)" stroke="url(#auroraBlue)" stroke-width="2"/>
+  <text x="370" y="200" text-anchor="middle" fill="#60efff" font-size="15" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🎮 关卡文件</text>
+  <rect x="295" y="215" width="150" height="28" rx="5" fill="rgba(0,255,135,0.15)" stroke="#00ff87" stroke-width="1"/>
+  <text x="305" y="234" fill="#00ff87" font-size="12" font-family="Consolas, monospace">📋 level.txt</text>
+  <rect x="295" y="250" width="150" height="28" rx="5" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="1"/>
+  <text x="305" y="269" fill="#60efff" font-size="12" font-family="Consolas, monospace">📋 level1.txt</text>
+  <rect x="295" y="285" width="150" height="28" rx="5" fill="rgba(124,77,255,0.15)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="305" y="304" fill="#b388ff" font-size="12" font-family="Consolas, monospace">📋 level2.txt</text>
+  <rect x="295" y="320" width="150" height="28" rx="5" fill="rgba(234,128,252,0.15)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="305" y="339" fill="#ea80fc" font-size="12" font-family="Consolas, monospace">📋 level3.txt</text>
+  <rect x="480" y="175" width="180" height="200" rx="12" fill="rgba(124,77,255,0.1)" stroke="url(#auroraPurple)" stroke-width="2"/>
+  <text x="570" y="200" text-anchor="middle" fill="#b388ff" font-size="15" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📊 diagrams/</text>
+  <rect x="495" y="215" width="150" height="24" rx="4" fill="rgba(0,255,135,0.12)" stroke="#00ff87" stroke-width="1"/>
+  <text x="505" y="232" fill="#00ff87" font-size="10" font-family="Consolas, monospace">🖼️ architecture.svg</text>
+  <rect x="495" y="243" width="150" height="24" rx="4" fill="rgba(96,239,255,0.12)" stroke="#60efff" stroke-width="1"/>
+  <text x="505" y="260" fill="#60efff" font-size="10" font-family="Consolas, monospace">🖼️ game_state_machine.svg</text>
+  <rect x="495" y="271" width="150" height="24" rx="4" fill="rgba(124,77,255,0.12)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="505" y="288" fill="#b388ff" font-size="10" font-family="Consolas, monospace">🖼️ render_pipeline.svg</text>
+  <rect x="495" y="299" width="150" height="24" rx="4" fill="rgba(234,128,252,0.12)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="505" y="316" fill="#ea80fc" font-size="10" font-family="Consolas, monospace">🖼️ liquid_rendering.svg</text>
+  <rect x="495" y="327" width="150" height="24" rx="4" fill="rgba(255,215,0,0.12)" stroke="#ffd700" stroke-width="1"/>
+  <text x="505" y="344" fill="#ffd700" font-size="10" font-family="Consolas, monospace">🖼️ + 更多图表...</text>
+  <rect x="680" y="175" width="180" height="200" rx="12" fill="rgba(234,128,252,0.1)" stroke="#ea80fc" stroke-width="2"/>
+  <text x="770" y="200" text-anchor="middle" fill="#ea80fc" font-size="15" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">⚙️ Debug/</text>
+  <rect x="695" y="215" width="150" height="28" rx="5" fill="rgba(0,255,135,0.2)" stroke="#00ff87" stroke-width="2"/>
+  <text x="705" y="234" fill="#00ff87" font-size="12" font-family="Consolas, monospace">🎯 WaterSort.exe</text>
+  <rect x="695" y="250" width="150" height="28" rx="5" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="1"/>
+  <text x="705" y="269" fill="#60efff" font-size="12" font-family="Consolas, monospace">📦 glew32.dll</text>
+  <rect x="695" y="285" width="150" height="28" rx="5" fill="rgba(124,77,255,0.15)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="705" y="304" fill="#b388ff" font-size="12" font-family="Consolas, monospace">📦 freeglut.dll</text>
+  <rect x="695" y="320" width="150" height="28" rx="5" fill="rgba(234,128,252,0.15)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="705" y="339" fill="#ea80fc" font-size="12" font-family="Consolas, monospace">📦 glut32.dll</text>
+
+  <rect x="40" y="400" width="820" height="280" rx="15" fill="rgba(255,215,0,0.06)" stroke="url(#galaxyGold)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="430" text-anchor="middle" fill="#ffd700" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📋 文件说明 File Descriptions</text>
+  <rect x="60" y="450" width="380" height="100" rx="10" fill="rgba(0,255,135,0.08)" stroke="#00ff87" stroke-width="1"/>
+  <text x="80" y="475" fill="#00ff87" font-size="14" font-family="KaiTi, STKaiti, serif">📝 WaterSort.cpp</text>
+  <text x="80" y="495" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">主源代码文件，包含所有游戏逻辑、渲染代码、</text>
+  <text x="80" y="512" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">GLSL着色器、动画系统和用户交互处理。</text>
+  <text x="80" y="535" fill="#b388ff" font-size="10" font-family="KaiTi, STKaiti, serif">约2500行 C++ 代码</text>
+  <rect x="460" y="450" width="380" height="100" rx="10" fill="rgba(96,239,255,0.08)" stroke="#60efff" stroke-width="1"/>
+  <text x="480" y="475" fill="#60efff" font-size="14" font-family="KaiTi, STKaiti, serif">📊 diagrams/ 目录</text>
+  <text x="480" y="495" fill="#00ff87" font-size="11" font-family="KaiTi, STKaiti, serif">SVG格式的架构图和流程图，包括系统架构、</text>
+  <text x="480" y="512" fill="#00ff87" font-size="11" font-family="KaiTi, STKaiti, serif">状态机、渲染管线、得分系统等可视化文档。</text>
+  <text x="480" y="535" fill="#b388ff" font-size="10" font-family="KaiTi, STKaiti, serif">10+ 个 SVG 图表文件</text>
+  <rect x="60" y="560" width="380" height="100" rx="10" fill="rgba(124,77,255,0.08)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="80" y="585" fill="#b388ff" font-size="14" font-family="KaiTi, STKaiti, serif">📋 level*.txt 关卡文件</text>
+  <text x="80" y="605" fill="#ea80fc" font-size="11" font-family="KaiTi, STKaiti, serif">纯文本格式的关卡配置文件，每行代表一个瓶子，</text>
+  <text x="80" y="622" fill="#ea80fc" font-size="11" font-family="KaiTi, STKaiti, serif">字母代表颜色 (R/G/B/Y/P/O/C)。</text>
+  <text x="80" y="645" fill="#ffd700" font-size="10" font-family="KaiTi, STKaiti, serif">支持自定义关卡导入</text>
+  <rect x="460" y="560" width="380" height="100" rx="10" fill="rgba(234,128,252,0.08)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="480" y="585" fill="#ea80fc" font-size="14" font-family="KaiTi, STKaiti, serif">⚙️ Debug/ 输出目录</text>
+  <text x="480" y="605" fill="#ffd700" font-size="11" font-family="KaiTi, STKaiti, serif">编译输出目录，包含可执行文件和运行时</text>
+  <text x="480" y="622" fill="#ffd700" font-size="11" font-family="KaiTi, STKaiti, serif">所需的DLL动态链接库文件。</text>
+  <text x="480" y="645" fill="#00ff87" font-size="10" font-family="KaiTi, STKaiti, serif">运行游戏需要这些DLL文件</text>
+</svg>

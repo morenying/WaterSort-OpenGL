@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="900" height="550" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="auroraBg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0a0a1a;stop-opacity:1" />
+      <stop offset="30%" style="stop-color:#0d1b2a;stop-opacity:1" />
+      <stop offset="60%" style="stop-color:#1b263b;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0a192f;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraGreen" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#00ff87;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00d4aa;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#60efff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraBlue" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#60efff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#00bcd4;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#7c4dff;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="auroraPurple" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#7c4dff;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#b388ff;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ea80fc;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="galaxyGold" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ffd700;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#ffaa00;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <filter id="glowStrong" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="6" result="coloredBlur"/>
+      <feMerge><feMergeNode in="coloredBlur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="900" height="550" fill="url(#auroraBg)"/>
+  <circle cx="50" cy="80" r="1.5" fill="white" opacity="0.8"/><circle cx="280" cy="50" r="2" fill="white" opacity="0.9"/>
+  <circle cx="650" cy="45" r="2" fill="white" opacity="0.8"/><circle cx="850" cy="35" r="1" fill="white" opacity="0.9"/>
+  <circle cx="70" cy="500" r="1" fill="white" opacity="0.5"/><circle cx="830" cy="480" r="1.5" fill="white" opacity="0.7"/>
+  <ellipse cx="450" cy="70" rx="400" ry="45" fill="url(#auroraGreen)" opacity="0.12" filter="url(#glowStrong)"/>
+  <ellipse cx="300" cy="500" rx="350" ry="35" fill="url(#auroraBlue)" opacity="0.1" filter="url(#glowStrong)"/>
+  <text x="450" y="45" text-anchor="middle" fill="url(#auroraGreen)" font-size="26" font-weight="bold" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">💻 软件环境 Software Environment 💻</text>
+
+  <rect x="40" y="80" width="260" height="200" rx="15" fill="rgba(0,255,135,0.1)" stroke="url(#auroraGreen)" stroke-width="2" filter="url(#glow)"/>
+  <text x="170" y="110" text-anchor="middle" fill="#00ff87" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🪟 操作系统</text>
+  <rect x="70" y="130" width="40" height="40" rx="5" fill="rgba(0,188,212,0.3)" stroke="#00bcd4" stroke-width="2"/>
+  <rect x="115" y="130" width="40" height="40" rx="5" fill="rgba(0,255,135,0.3)" stroke="#00ff87" stroke-width="2"/>
+  <rect x="70" y="175" width="40" height="40" rx="5" fill="rgba(255,215,0,0.3)" stroke="#ffd700" stroke-width="2"/>
+  <rect x="115" y="175" width="40" height="40" rx="5" fill="rgba(234,128,252,0.3)" stroke="#ea80fc" stroke-width="2"/>
+  <text x="220" y="155" fill="#60efff" font-size="14" font-family="KaiTi, STKaiti, serif">Windows 10</text>
+  <text x="220" y="180" fill="#60efff" font-size="14" font-family="KaiTi, STKaiti, serif">Windows 11</text>
+  <text x="220" y="210" fill="#00d4aa" font-size="11" font-family="KaiTi, STKaiti, serif">64位系统</text>
+  <rect x="60" y="235" width="220" height="30" rx="5" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="1"/>
+  <text x="170" y="255" text-anchor="middle" fill="#60efff" font-size="11" font-family="KaiTi, STKaiti, serif">✓ 需要 Visual C++ 运行时</text>
+  <rect x="320" y="80" width="260" height="200" rx="15" fill="rgba(124,77,255,0.1)" stroke="url(#auroraPurple)" stroke-width="2" filter="url(#glow)"/>
+  <text x="450" y="110" text-anchor="middle" fill="#b388ff" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🛠️ 开发环境</text>
+  <rect x="350" y="130" width="60" height="60" rx="10" fill="rgba(124,77,255,0.3)" stroke="#7c4dff" stroke-width="2"/>
+  <text x="380" y="168" text-anchor="middle" fill="#b388ff" font-size="24" font-family="Arial">VS</text>
+  <text x="430" y="150" fill="#ea80fc" font-size="14" font-family="KaiTi, STKaiti, serif">Visual Studio 2022</text>
+  <text x="430" y="172" fill="#b388ff" font-size="12" font-family="KaiTi, STKaiti, serif">Community Edition</text>
+  <text x="430" y="195" fill="#7c4dff" font-size="11" font-family="KaiTi, STKaiti, serif">版本 17.x (v18)</text>
+  <rect x="340" y="210" width="220" height="25" rx="5" fill="rgba(234,128,252,0.15)" stroke="#ea80fc" stroke-width="1"/>
+  <text x="450" y="228" text-anchor="middle" fill="#ea80fc" font-size="11" font-family="KaiTi, STKaiti, serif">工作负载: C++桌面开发</text>
+  <rect x="340" y="240" width="220" height="25" rx="5" fill="rgba(0,255,135,0.15)" stroke="#00ff87" stroke-width="1"/>
+  <text x="450" y="258" text-anchor="middle" fill="#00ff87" font-size="11" font-family="KaiTi, STKaiti, serif">✓ 包含 Windows SDK</text>
+
+  <rect x="600" y="80" width="260" height="200" rx="15" fill="rgba(96,239,255,0.1)" stroke="url(#auroraBlue)" stroke-width="2" filter="url(#glow)"/>
+  <text x="730" y="110" text-anchor="middle" fill="#60efff" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">⚙️ 编译工具链</text>
+  <rect x="620" y="130" width="220" height="35" rx="8" fill="rgba(0,255,135,0.15)" stroke="#00ff87" stroke-width="1"/>
+  <text x="640" y="153" fill="#00ff87" font-size="13" font-family="KaiTi, STKaiti, serif">编译器</text>
+  <text x="750" y="153" fill="#60efff" font-size="12" font-family="Consolas, monospace">MSVC v143</text>
+  <rect x="620" y="175" width="220" height="35" rx="8" fill="rgba(96,239,255,0.15)" stroke="#60efff" stroke-width="1"/>
+  <text x="640" y="198" fill="#60efff" font-size="13" font-family="KaiTi, STKaiti, serif">C++标准</text>
+  <text x="750" y="198" fill="#00bcd4" font-size="12" font-family="Consolas, monospace">C++17</text>
+  <rect x="620" y="220" width="220" height="35" rx="8" fill="rgba(124,77,255,0.15)" stroke="#7c4dff" stroke-width="1"/>
+  <text x="640" y="243" fill="#b388ff" font-size="13" font-family="KaiTi, STKaiti, serif">构建系统</text>
+  <text x="750" y="243" fill="#7c4dff" font-size="12" font-family="Consolas, monospace">MSBuild</text>
+  <rect x="40" y="300" width="400" height="130" rx="15" fill="rgba(255,215,0,0.08)" stroke="url(#galaxyGold)" stroke-width="2" filter="url(#glow)"/>
+  <text x="240" y="330" text-anchor="middle" fill="#ffd700" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">🎯 编译配置</text>
+  <rect x="60" y="350" width="170" height="65" rx="10" fill="rgba(0,255,135,0.12)" stroke="#00ff87" stroke-width="1"/>
+  <text x="145" y="375" text-anchor="middle" fill="#00ff87" font-size="14" font-family="KaiTi, STKaiti, serif">目标平台</text>
+  <text x="145" y="400" text-anchor="middle" fill="#60efff" font-size="16" font-family="Consolas, monospace">x86 (Win32)</text>
+  <rect x="250" y="350" width="170" height="65" rx="10" fill="rgba(96,239,255,0.12)" stroke="#60efff" stroke-width="1"/>
+  <text x="335" y="375" text-anchor="middle" fill="#60efff" font-size="14" font-family="KaiTi, STKaiti, serif">配置模式</text>
+  <text x="335" y="400" text-anchor="middle" fill="#00bcd4" font-size="16" font-family="Consolas, monospace">Debug / Release</text>
+  <rect x="460" y="300" width="400" height="130" rx="15" fill="rgba(234,128,252,0.08)" stroke="#ea80fc" stroke-width="2" filter="url(#glow)"/>
+  <text x="660" y="330" text-anchor="middle" fill="#ea80fc" font-size="18" font-family="KaiTi, STKaiti, serif" filter="url(#glow)">📋 运行时要求</text>
+  <text x="480" y="360" fill="#b388ff" font-size="12" font-family="KaiTi, STKaiti, serif">• Visual C++ Redistributable 2022</text>
+  <text x="480" y="385" fill="#60efff" font-size="12" font-family="KaiTi, STKaiti, serif">• OpenGL 2.0+ 驱动支持</text>
+  <text x="480" y="410" fill="#00ff87" font-size="12" font-family="KaiTi, STKaiti, serif">• 运行目录需包含 DLL 文件:</text>
+  <text x="500" y="430" fill="#ffd700" font-size="11" font-family="Consolas, monospace">glew32.dll, freeglut.dll, glut32.dll</text>
+  <rect x="40" y="450" width="820" height="80" rx="12" fill="rgba(0,0,0,0.3)" stroke="#60efff" stroke-width="1"/>
+  <text x="450" y="480" text-anchor="middle" fill="#60efff" font-size="14" font-family="KaiTi, STKaiti, serif">💡 开发提示</text>
+  <text x="80" y="510" fill="#00ff87" font-size="11" font-family="KaiTi, STKaiti, serif">• 首次编译需配置 OpenGL 头文件和库文件路径</text>
+  <text x="450" y="510" fill="#b388ff" font-size="11" font-family="KaiTi, STKaiti, serif">• 建议使用 Debug 配置进行开发调试</text>
+</svg>
