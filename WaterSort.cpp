@@ -371,6 +371,14 @@ struct PhysicsLiquid {
     int isPouring;   // 是否正在溢出
 };
 
+// 安全的 tan 函数，防止接近 90° 时产生无穷大
+static float safeTan(float radians) {
+    // 将角度限制在安全范围内（最大约 89.5°）
+    float maxRad = 89.5f * PI / 180.0f;
+    if (radians > maxRad) radians = maxRad;
+    return tanf(radians);
+}
+
 // 真实物理计算：给定倾斜角度和液体体积，计算液体形状
 PhysicsLiquid calcPhysicsLiquid(float tiltAngleDeg, float liquidVolume) {
     PhysicsLiquid result = {0.02f, 0.02f, 0.02f, 0};
@@ -378,7 +386,9 @@ PhysicsLiquid calcPhysicsLiquid(float tiltAngleDeg, float liquidVolume) {
     if (liquidVolume < 0.01f) return result;
     
     float r = B_RAD * 0.86f;  // 液体半径（略小于瓶子半径）
-    float tiltRad = fabsf(tiltAngleDeg) * PI / 180.0f;
+    float clampedAngle = fabsf(tiltAngleDeg);
+    if (clampedAngle > 89.5f) clampedAngle = 89.5f;
+    float tiltRad = clampedAngle * PI / 180.0f;
     
     // 液体体积 = π * r² * h（直立时的高度）
     float normalHeight = liquidVolume * L_HGT;
@@ -396,7 +406,7 @@ PhysicsLiquid calcPhysicsLiquid(float tiltAngleDeg, float liquidVolume) {
     // 液面方程（瓶子局部坐标）：y = centerY + x * tan(tiltAngle)
     // 其中 x 是沿倾斜方向的坐标
     
-    float tanAngle = tanf(tiltRad);
+    float tanAngle = safeTan(tiltRad);
     
     // 液面在瓶壁处的高度差 = 2 * r * tan(angle)
     float heightDiff = 2.0f * r * tanAngle;
@@ -442,8 +452,10 @@ void drawPhysicsLiquid(float tiltAngleDeg, int tiltDir, float liquidVolume, int 
     if (color <= 0 || liquidVolume < 0.01f) return;
     
     float r = B_RAD * 0.86f;
-    float tiltRad = fabsf(tiltAngleDeg) * PI / 180.0f;
-    float tanAngle = tanf(tiltRad);
+    float clampedAngle = fabsf(tiltAngleDeg);
+    if (clampedAngle > 89.5f) clampedAngle = 89.5f;
+    float tiltRad = clampedAngle * PI / 180.0f;
+    float tanAngle = safeTan(tiltRad);
     float normalHeight = liquidVolume * L_HGT;
     
     // 设置液体材质
@@ -554,8 +566,10 @@ void drawPhysicsLiquidMultiLayer(float tiltAngleDeg, int tiltDir, int* layers, i
     if (layerCount <= 0 || visualLiquid < 0.01f) return;
     
     float r = B_RAD * 0.86f;
-    float tiltRad = fabsf(tiltAngleDeg) * PI / 180.0f;
-    float tanAngle = tanf(tiltRad);
+    float clampedAngle = fabsf(tiltAngleDeg);
+    if (clampedAngle > 89.5f) clampedAngle = 89.5f;
+    float tiltRad = clampedAngle * PI / 180.0f;
+    float tanAngle = safeTan(tiltRad);
     
     // 设置液体材质
     float liqSpec[] = {0.6f, 0.6f, 0.65f, 1.0f};
@@ -864,6 +878,91 @@ void drawWorldSpaceLiquid(float bottleX, float bottleY, float bottleZ,
     float defShin2[] = {70.0f};
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, defSpec2);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, defShin2);
+}
+
+// 绘制瓶颈中流动的液体效果
+// 当瓶子倾斜倾倒时，液体在颈部收束流出，增强真实感
+void drawNeckFlow(float bottleX, float bottleY, float bottleZ,
+                  float tiltAngleDeg, int tiltDir, int color, float flowIntensity) {
+    if (color <= 0 || flowIntensity < 0.01f) return;
+    
+    float tiltRad = fabsf(tiltAngleDeg) * PI / 180.0f;
+    float cosT = cosf(tiltRad);
+    float sinT = sinf(tiltRad);
+    
+    // 瓶颈参数
+    float neckR = NECK_RAD * 0.7f;  // 液体在颈中的半径
+    float neckBottom = B_HGT - 0.1f;  // 颈部起点（瓶身到瓶颈过渡）
+    float neckTop = BOTTLE_TOP;  // 瓶口
+    
+    int segments = 10;
+    int radialSegs = 10;
+    
+    // 设置半透明颈部液体材质
+    float liqSpec[] = {0.7f, 0.7f, 0.75f, 1.0f};
+    float liqShin[] = {60.0f};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, liqSpec);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, liqShin);
+    
+    static float neckFlowTime = 0;
+    neckFlowTime += 0.08f;
+    if (neckFlowTime > 100.0f) neckFlowTime = 0;
+    
+    // 颈部液体从宽变窄，模拟液体收束
+    for (int i = 0; i < segments; i++) {
+        float t1 = (float)i / segments;
+        float t2 = (float)(i + 1) / segments;
+        
+        float localY1 = neckBottom + t1 * (neckTop - neckBottom);
+        float localY2 = neckBottom + t2 * (neckTop - neckBottom);
+        
+        // 半径从瓶身半径收束到颈部半径
+        float bodyR = B_RAD * 0.86f;
+        float r1 = bodyR + t1 * (neckR - bodyR);  // 线性插值
+        float r2 = bodyR + t2 * (neckR - bodyR);
+        
+        // 流动强度影响液体填充度（越满表示流量越大）
+        float fill = flowIntensity * (0.5f + 0.5f * (1.0f - t1));
+        r1 *= fill;
+        r2 *= fill;
+        
+        // 流动波纹
+        float wave = 1.0f + 0.1f * sinf(neckFlowTime * 5.0f - t1 * 8.0f);
+        r1 *= wave;
+        r2 *= wave;
+        
+        glBegin(GL_QUAD_STRIP);
+        for (int j = 0; j <= radialSegs; j++) {
+            float angle = (float)j / radialSegs * 2.0f * PI;
+            float lx = cosf(angle);
+            float lz = sinf(angle);
+            
+            // 转换到世界坐标
+            float wx1 = bottleX + lx * r1 * cosT + localY1 * sinT * (-tiltDir);
+            float wy1 = bottleY - lx * r1 * sinT * (-tiltDir) + localY1 * cosT;
+            float wz1 = bottleZ + lz * r1;
+            
+            float wx2 = bottleX + lx * r2 * cosT + localY2 * sinT * (-tiltDir);
+            float wy2 = bottleY - lx * r2 * sinT * (-tiltDir) + localY2 * cosT;
+            float wz2 = bottleZ + lz * r2;
+            
+            float brightness = 0.8f + 0.2f * fabsf(lx);
+            glColor4f(liquidColors[color][0] * brightness,
+                     liquidColors[color][1] * brightness,
+                     liquidColors[color][2] * brightness,
+                     liquidColors[color][3] * fill * 0.85f);
+            glNormal3f(lx, 0, lz);
+            glVertex3f(wx1, wy1, wz1);
+            glVertex3f(wx2, wy2, wz2);
+        }
+        glEnd();
+    }
+    
+    // 恢复默认材质
+    float defSpec3[] = {0.75f, 0.75f, 0.8f, 1};
+    float defShin3[] = {70.0f};
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, defSpec3);
+    glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, defShin3);
 }
 
 
@@ -1267,6 +1366,13 @@ void drawBottle(int i, int pick) {
             drawWorldSpaceLiquid(b->x + b->moveX, b->y + b->offsetY, b->z,
                                  b->tiltAngle, b->tiltDir,
                                  tempLayers, tempCount, vis);
+            
+            // 倾倒时绘制颈部液体流动效果
+            if (animating && i == animSrc && animPhase == 3 && pourColor > 0) {
+                float flowStrength = fminf(pourAmt * 1.5f, 1.0f);
+                drawNeckFlow(b->x + b->moveX, b->y + b->offsetY, b->z,
+                            b->tiltAngle, b->tiltDir, pourColor, flowStrength);
+            }
             
             // 重新应用瓶子位置变换来绘制玻璃瓶
             glPushMatrix();
@@ -1770,7 +1876,7 @@ void updateDemo() {
 
 // ========== Rendering ==========
 // ========== Enhanced Fluid Stream ==========
-// 绘制带有变形效果的3D液柱
+// 绘制带有重力抛物线效果的3D液柱
 void drawStream(float sx, float sy, float tx, float ty, int col, float prog) {
     if (col <= 0 || prog < 0.01f) return;
     
@@ -1781,12 +1887,20 @@ void drawStream(float sx, float sy, float tx, float ty, int col, float prog) {
     
     glDisable(GL_LIGHTING);  // 液柱使用自发光效果
     
-    // 贝塞尔曲线控制点
-    float mx = (sx + tx) / 2;
-    float my = fmaxf(sy, ty) + 0.15f;
+    // 重力抛物线控制点：让液柱起点有一定水平速度，然后受重力下落
+    float dx_total = tx - sx;
+    float dy_total = ty - sy;
     
-    int segments = 24;
-    int radialSegs = 12;
+    // 控制点位于起点上方，模拟液体初始抛射方向
+    float mx = sx + dx_total * 0.35f;
+    float my = sy + fabsf(dy_total) * 0.1f + 0.2f;  // 起始段先略微上升再下落
+    
+    int segments = 32;   // 更多段数 = 更平滑
+    int radialSegs = 14;  // 更多径向段 = 更圆
+    
+    // 基础半径随 prog 的流量感变化
+    float baseRadius = 0.05f * prog;
+    if (baseRadius > 0.05f) baseRadius = 0.05f;
     
     // 绘制3D圆柱形液柱
     for (int i = 0; i < segments; i++) {
@@ -1803,11 +1917,18 @@ void drawStream(float sx, float sy, float tx, float ty, int col, float prog) {
         float px2 = u2*u2*sx + 2*u2*t2*mx + t2*t2*tx;
         float py2 = u2*u2*sy + 2*u2*t2*my + t2*t2*ty;
         
-        // 液柱半径：起点粗，终点细，加上波动效果
-        float wave1 = 1.0f + 0.15f * sinf(streamTime * 3.0f + t1 * 10.0f);
-        float wave2 = 1.0f + 0.15f * sinf(streamTime * 3.0f + t2 * 10.0f);
-        float r1 = 0.045f * (1.0f - t1 * 0.4f) * wave1;
-        float r2 = 0.045f * (1.0f - t2 * 0.4f) * wave2;
+        // 液柱半径：起点有颈口收缩效果，中段因表面张力略粗，末端变细
+        // 模拟真实水流：出口处受颈口限制，之后因重力加速而变细
+        float neckFactor = 0.7f + 0.3f * t1;  // 颈口收缩 → 正常
+        float gravityThin = 1.0f - t1 * t1 * 0.5f;  // 重力加速导致液柱变细
+        float wave1 = 1.0f + 0.08f * sinf(streamTime * 4.0f + t1 * 12.0f);
+        float wave2 = 1.0f + 0.08f * sinf(streamTime * 4.0f + t2 * 12.0f);
+        float r1 = baseRadius * neckFactor * gravityThin * wave1;
+        float r2 = baseRadius * (0.7f + 0.3f * t2) * (1.0f - t2 * t2 * 0.5f) * wave2;
+        
+        // 避免半径过小
+        if (r1 < 0.005f) r1 = 0.005f;
+        if (r2 < 0.005f) r2 = 0.005f;
         
         // 计算切线方向
         float dx = px2 - px1;
@@ -1822,12 +1943,17 @@ void drawStream(float sx, float sy, float tx, float ty, int col, float prog) {
             float nx = cosf(angle);
             float nz = sinf(angle);
             
-            // 颜色渐变：中心亮，边缘暗
-            float brightness = 0.7f + 0.3f * fabsf(nx);
-            glColor4f(liquidColors[col][0] * brightness, 
-                     liquidColors[col][1] * brightness,
-                     liquidColors[col][2] * brightness,
-                     liquidColors[col][3] * (0.85f - t1 * 0.2f));
+            // 液体光泽效果：高光在正面，边缘半透明
+            float facing = fabsf(nx);
+            float edgeFade = 0.6f + 0.4f * facing;  // 边缘透明度降低
+            float specular = facing * facing * 0.3f;  // 高光
+            float brightness = 0.75f + 0.25f * facing + specular;
+            float alpha = liquidColors[col][3] * edgeFade * (0.9f - t1 * 0.25f);
+            
+            glColor4f(fminf(liquidColors[col][0] * brightness, 1.0f), 
+                     fminf(liquidColors[col][1] * brightness, 1.0f),
+                     fminf(liquidColors[col][2] * brightness, 1.0f),
+                     alpha);
             
             glNormal3f(nx, 0, nz);
             glVertex3f(px1 + nx * r1, py1, nz * r1);
@@ -1836,22 +1962,39 @@ void drawStream(float sx, float sy, float tx, float ty, int col, float prog) {
         glEnd();
     }
     
-    // 绘制液柱末端的水滴效果
-    if (prog > 0.8f) {
+    // 绘制液柱末端的水滴效果 + 飞溅小液滴
+    if (prog > 0.7f) {
         float dropT = prog;
         float u = 1 - dropT;
         float dropX = u*u*sx + 2*u*dropT*mx + dropT*dropT*tx;
         float dropY = u*u*sy + 2*u*dropT*my + dropT*dropT*ty;
-        float dropR = 0.03f * (1.0f + 0.2f * sinf(streamTime * 5.0f));
         
-        glColor4f(liquidColors[col][0], liquidColors[col][1], 
-                 liquidColors[col][2], liquidColors[col][3] * 0.9f);
+        // 主水滴 - 拉长的椭球形
+        float dropR = 0.035f * (1.0f + 0.15f * sinf(streamTime * 5.0f));
+        
+        glColor4f(liquidColors[col][0] * 1.1f, liquidColors[col][1] * 1.1f, 
+                 liquidColors[col][2] * 1.1f, liquidColors[col][3] * 0.9f);
         
         GLUquadric* q = gluNewQuadric();
         glPushMatrix();
         glTranslatef(dropX, dropY, 0);
-        gluSphere(q, dropR, 8, 8);
+        glScalef(0.8f, 1.3f, 0.8f);  // 拉长水滴形状（重力方向）
+        gluSphere(q, dropR, 10, 10);
         glPopMatrix();
+        
+        // 小飞溅液滴（仅在接近目标时显示）
+        if (prog > 0.9f) {
+            for (int sp = 0; sp < 3; sp++) {
+                float spOff = sinf(streamTime * 2.0f + sp * 2.1f) * 0.08f;
+                float spY = dropY - 0.02f - sp * 0.03f;
+                float spR = 0.012f * (1.0f + 0.3f * sinf(streamTime * 7.0f + sp));
+                glPushMatrix();
+                glTranslatef(dropX + spOff, spY, cosf(streamTime + sp) * 0.04f);
+                gluSphere(q, spR, 6, 6);
+                glPopMatrix();
+            }
+        }
+        
         gluDeleteQuadric(q);
     }
     
@@ -2593,10 +2736,21 @@ void display() {
         float rad = s->tiltAngle * PI / 180.0f;
         float bx = s->x + s->moveX;
         float by = s->y + s->offsetY;
-        float px = bx + sinf(rad) * BOTTLE_TOP * (-s->tiltDir);
-        float py = by + cosf(rad) * BOTTLE_TOP;
-        float ty = t->y + t->visualLiquid * L_HGT + 0.05f;
-        drawStream(px, py, t->x, ty, pourColor, 0.6f + pourAmt * 0.4f);
+        
+        // 精确计算瓶口边缘出水点（而非瓶口中心）
+        // 液体从瓶口的"低侧边缘"流出，即倾斜方向的那一边
+        float neckEdgeOffset = NECK_RAD * 0.6f;  // 瓶颈半径的出水偏移
+        float mouthLocalX = neckEdgeOffset * (-s->tiltDir);  // 低侧偏移
+        float mouthLocalY = BOTTLE_TOP;
+        
+        // 将瓶口局部坐标旋转到世界坐标
+        float px = bx + (mouthLocalY * sinf(rad) + mouthLocalX * cosf(rad)) * (-s->tiltDir);
+        float py = by + mouthLocalY * cosf(rad) - mouthLocalX * sinf(rad) * (-s->tiltDir);
+        
+        // 目标瓶的接收点：液面正上方一点点
+        float ty = t->y + t->visualLiquid * L_HGT + 0.08f;
+        float prog = 0.6f + pourAmt * 0.4f;
+        drawStream(px, py, t->x, ty, pourColor, prog);
     }
 
     // Demo模式显示特殊UI
