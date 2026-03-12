@@ -2533,7 +2533,7 @@ void drawGameUI() {
     drawText((float)(winW - 150), (float)(winH - 28), movesStr, GLUT_BITMAP_HELVETICA_18);
 
     glColor3f(0.45f, 0.48f, 0.52f);
-    drawText(20, 18, "[R] Restart  [M] Menu  [Arrows] Camera", GLUT_BITMAP_HELVETICA_12);
+    drawText(20, 18, "[R] Restart  [M] Menu  [H] AI Chat  [Arrows] Camera", GLUT_BITMAP_HELVETICA_12);
 
     // 底部居中显示学号姓名（在瓶子下方，GLUT最大字体）
     glColor3f(0.7f, 0.85f, 0.95f);
@@ -2742,8 +2742,16 @@ void drawChatPanel();
 
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-    if (gameState == STATE_MENU) { drawMenu(); glutSwapBuffers(); return; }
-    if (gameState == STATE_RULES) { drawRules(); glutSwapBuffers(); return; }
+    if (gameState == STATE_MENU) {
+        drawMenu();
+        if (g_chatOpen) drawChatPanel();
+        glutSwapBuffers(); return;
+    }
+    if (gameState == STATE_RULES) {
+        drawRules();
+        if (g_chatOpen) drawChatPanel();
+        glutSwapBuffers(); return;
+    }
 
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -3198,13 +3206,11 @@ void keyboard(unsigned char k, int x, int y) {
         return;
     }
     
-    // F1键不在unsigned char范围，用'/' 或 'h' 替代
+    // F1键不在unsigned char范围，用'/' 或 'h' 替代 — 任意界面可唤起
     if (k == '/' || k == 'h' || k == 'H') {
-        if (gameState == STATE_PLAYING || gameState == STATE_WON) {
-            g_chatOpen = !g_chatOpen;
-            glutPostRedisplay();
-            return;
-        }
+        g_chatOpen = !g_chatOpen;
+        glutPostRedisplay();
+        return;
     }
     
     if (gameState == STATE_MENU) {
