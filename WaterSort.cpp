@@ -1,7 +1,9 @@
 // WaterSort.cpp - Water Sort Puzzle with Menu System
 // Features: Start menu, difficulty selection, rules, precise pour animation
 // Enhanced: GLSL shader for physically correct liquid rendering during tilt
+// AI Agent: In-game AI chat assistant with RAG knowledge base
 #define _CRT_SECURE_NO_WARNINGS
+#define AI_AGENT_IMPLEMENTATION
 
 #include <glew.h>  // GLEW must be included before other GL headers
 #include <glut.h>
@@ -12,6 +14,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <string>
+
+#include "ai_agent/ai_agent.h"
 
 #pragma comment(lib, "glew32.lib")
 #pragma comment(lib, "freeglut.lib")
@@ -351,6 +356,17 @@ const float BOTTLE_TOP = B_HGT + 0.35f;
 float bottleScreenX[MAX_BOTTLES];
 float bottleScreenTopY[MAX_BOTTLES];
 float bottleScreenBottomY[MAX_BOTTLES];
+
+// ========== AI Chat Agent ==========
+aiagent::AIAgent g_aiAgent;
+bool g_chatOpen = false;           // 聊天面板是否打开
+char g_chatInput[256] = "";        // 输入缓冲区
+int g_chatInputLen = 0;            // 输入长度
+float g_chatScrollY = 0;           // 消息滚动偏移
+bool g_aiInitialized = false;      // AI是否初始化成功
+
+// 颜色名称映射（用于状态序列化）
+const char* colorNames[] = { "空", "红", "绿", "蓝", "黄", "紫", "橙", "青", "粉", "棕" };
 
 // ========== 液体物理模拟 ==========
 // 核心原理：
@@ -1681,6 +1697,13 @@ void timerCB(int v) {
         glutPostRedisplay();
     }
     
+    // AI聊天面板打字机效果更新
+    if (g_chatOpen && g_aiInitialized) {
+        if (g_aiAgent.updateTypewriter(0.016f, 40.0f)) {
+            glutPostRedisplay();
+        }
+    }
+    
     glutTimerFunc(16, timerCB, 0);
 }
 
@@ -2714,6 +2737,9 @@ void drawWinScreen() {
     glEnable(GL_LIGHTING);
 }
 
+// Forward declaration
+void drawChatPanel();
+
 void display() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     if (gameState == STATE_MENU) { drawMenu(); glutSwapBuffers(); return; }
@@ -2737,17 +2763,22 @@ void display() {
         float bx = s->x + s->moveX;
         float by = s->y + s->offsetY;
         
-        // 精确计算瓶口边缘出水点（而非瓶口中心）
-        // 液体从瓶口的"低侧边缘"流出，即倾斜方向的那一边
-        float neckEdgeOffset = NECK_RAD * 0.6f;  // 瓶颈半径的出水偏移
-        float mouthLocalX = neckEdgeOffset * (-s->tiltDir);  // 低侧偏移
-        float mouthLocalY = BOTTLE_TOP;
+        // 精确计算瓶口边缘出水点
+        // 旋转变换: 局部(lx, ly) → 世界(wx, wy)
+        // θ = rad * tiltDir
+        // wx = bx + lx*cos(θ) - ly*sin(θ)
+        // wy = by + lx*sin(θ) + ly*cos(θ)
+        // cos(rad*tiltDir) = cos(rad), sin(rad*tiltDir) = sin(rad)*tiltDir
+        float neckEdgeOffset = NECK_RAD * 0.5f;
+        float lx = -neckEdgeOffset * s->tiltDir;  // 出水侧偏移
+        float ly = BOTTLE_TOP;
         
-        // 将瓶口局部坐标旋转到世界坐标
-        float px = bx + (mouthLocalY * sinf(rad) + mouthLocalX * cosf(rad)) * (-s->tiltDir);
-        float py = by + mouthLocalY * cosf(rad) - mouthLocalX * sinf(rad) * (-s->tiltDir);
+        float cosR = cosf(rad);
+        float sinR = sinf(rad);
+        float px = bx + lx * cosR - ly * sinR * s->tiltDir;
+        float py = by + lx * sinR * s->tiltDir + ly * cosR;
         
-        // 目标瓶的接收点：液面正上方一点点
+        // 目标瓶的接收点：液面正上方
         float ty = t->y + t->visualLiquid * L_HGT + 0.08f;
         float prog = 0.6f + pourAmt * 0.4f;
         drawStream(px, py, t->x, ty, pourColor, prog);
@@ -2792,6 +2823,10 @@ void display() {
     }
     
     if (gameState == STATE_WON) drawWinScreen();
+    
+    // AI聊天面板（覆盖在游戏画面上方）
+    if (g_chatOpen) drawChatPanel();
+    
     glutSwapBuffers();
 }
 
@@ -2905,7 +2940,273 @@ void mouse(int btn, int st, int x, int y) {
     }
 }
 
+// ========== AI Chat: Game State Serializer ==========
+std::string getGameStateText() {
+    std::string s;
+    const char* stateNames[] = {"主菜单", "规则页面", "游戏中", "已通关", "Demo演示"};
+    s += "当前状态: ";
+    s += stateNames[(int)gameState];
+    s += "\n";
+    
+    if (gameState == STATE_PLAYING || gameState == STATE_WON || gameState == STATE_DEMO) {
+        const char* diffNames[] = {"简单(3色5瓶)", "中等(5色7瓶)", "困难(8色10瓶)"};
+        s += "难度: ";
+        s += diffNames[currentLevel - 1];
+        s += "\n";
+        s += "步数: " + std::to_string(playerMoves) + "\n";
+        s += "瓶子状态:\n";
+        for (int i = 0; i < numBottles; i++) {
+            s += "  瓶" + std::to_string(i + 1) + ": [";
+            for (int j = 0; j < bottles[i].count; j++) {
+                int c = bottles[i].layers[j];
+                if (c >= 0 && c < 10) s += colorNames[c];
+                else s += "?";
+                if (j < bottles[i].count - 1) s += ",";
+            }
+            s += "]";
+            if (bottles[i].count == 0) s += "(空)";
+            s += "\n";
+        }
+    }
+    return s;
+}
+
+// ========== AI Chat: UI Rendering ==========
+void drawChatPanel() {
+    // 切换到2D正交投影
+    glDisable(GL_LIGHTING);
+    glDisable(GL_DEPTH_TEST);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(0, winW, 0, winH);
+    glMatrixMode(GL_MODELVIEW);
+    glPushMatrix();
+    glLoadIdentity();
+    
+    // 面板尺寸和位置（右侧面板）
+    float panelW = 360.0f;
+    float panelX = (float)winW - panelW - 10.0f;
+    float panelY = 10.0f;
+    float panelH = (float)winH - 20.0f;
+    float inputH = 30.0f;
+    float headerH = 35.0f;
+    
+    // 半透明背景
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+    glColor4f(0.05f, 0.07f, 0.12f, 0.92f);
+    glBegin(GL_QUADS);
+    glVertex2f(panelX, panelY);
+    glVertex2f(panelX + panelW, panelY);
+    glVertex2f(panelX + panelW, panelY + panelH);
+    glVertex2f(panelX, panelY + panelH);
+    glEnd();
+    
+    // 边框
+    glColor4f(0.3f, 0.5f, 0.9f, 0.6f);
+    glLineWidth(1.5f);
+    glBegin(GL_LINE_LOOP);
+    glVertex2f(panelX, panelY);
+    glVertex2f(panelX + panelW, panelY);
+    glVertex2f(panelX + panelW, panelY + panelH);
+    glVertex2f(panelX, panelY + panelH);
+    glEnd();
+    
+    // 标题栏
+    glColor4f(0.1f, 0.15f, 0.25f, 0.95f);
+    glBegin(GL_QUADS);
+    glVertex2f(panelX, panelY + panelH - headerH);
+    glVertex2f(panelX + panelW, panelY + panelH - headerH);
+    glVertex2f(panelX + panelW, panelY + panelH);
+    glVertex2f(panelX, panelY + panelH);
+    glEnd();
+    
+    glColor3f(0.4f, 0.7f, 1.0f);
+    drawText(panelX + 12, panelY + panelH - 22, "AI Assistant (F1 close | Enter send)", GLUT_BITMAP_HELVETICA_12);
+    
+    // 输入框背景
+    glColor4f(0.12f, 0.14f, 0.2f, 0.95f);
+    glBegin(GL_QUADS);
+    glVertex2f(panelX + 5, panelY + 5);
+    glVertex2f(panelX + panelW - 5, panelY + 5);
+    glVertex2f(panelX + panelW - 5, panelY + 5 + inputH);
+    glVertex2f(panelX + 5, panelY + 5 + inputH);
+    glEnd();
+    
+    // 输入文字
+    glColor3f(0.85f, 0.9f, 0.95f);
+    char inputDisplay[270];
+    snprintf(inputDisplay, sizeof(inputDisplay), "> %s_", g_chatInput);
+    drawText(panelX + 10, panelY + 17, inputDisplay, GLUT_BITMAP_HELVETICA_12);
+    
+    // 消息区域
+    float msgAreaTop = panelY + panelH - headerH - 5;
+    float msgAreaBottom = panelY + 5 + inputH + 5;
+    float msgY = msgAreaBottom + g_chatScrollY;
+    
+    // 设置裁剪区域（防止文字溢出面板）
+    glEnable(GL_SCISSOR_TEST);
+    glScissor((int)panelX, (int)msgAreaBottom, (int)panelW, (int)(msgAreaTop - msgAreaBottom));
+    
+    // 从下往上绘制消息（最新的在最下面）
+    auto& history = g_aiAgent.getHistory();
+    float lineH = 16.0f;
+    
+    // 先计算总高度
+    float totalH = 0;
+    for (int i = 0; i < (int)history.size(); i++) {
+        const auto& msg = history[i];
+        // 简单估算行数（每行约40个ASCII字符或20个中文字符）
+        int estimatedLines = 1 + (int)msg.content.size() / 38;
+        totalH += (estimatedLines + 1) * lineH;  // +1 for role label
+    }
+    
+    // 如果消息超出可视区域，从底部开始渲染
+    float startY = msgAreaTop - 5;
+    if (totalH > (msgAreaTop - msgAreaBottom)) {
+        startY = msgAreaBottom + totalH + g_chatScrollY;
+    }
+    
+    float curY = startY;
+    for (int i = 0; i < (int)history.size(); i++) {
+        const auto& msg = history[i];
+        
+        // 角色标签
+        if (msg.role == "user") {
+            glColor3f(0.3f, 0.85f, 0.4f);
+            drawText(panelX + 10, curY, "[You]", GLUT_BITMAP_HELVETICA_12);
+        } else if (msg.role == "assistant") {
+            glColor3f(0.4f, 0.7f, 1.0f);
+            drawText(panelX + 10, curY, "[AI]", GLUT_BITMAP_HELVETICA_12);
+        }
+        curY -= lineH;
+        
+        // 消息内容（支持自动换行）
+        if (msg.role == "user") glColor3f(0.8f, 0.85f, 0.8f);
+        else glColor3f(0.82f, 0.85f, 0.9f);
+        
+        // 获取显示文本（支持打字机效果）
+        std::string displayText = msg.content;
+        if (msg.role == "assistant" && i == (int)history.size() - 1 && msg.displayedChars >= 0) {
+            displayText = g_aiAgent.getVisibleLastReply();
+        }
+        
+        // 简单的自动换行渲染
+        const int maxCharsPerLine = 38;
+        int pos = 0;
+        int len = (int)displayText.size();
+        while (pos < len) {
+            // 处理UTF-8多字节字符的换行
+            int lineEnd = pos;
+            int charCount = 0;
+            while (lineEnd < len && charCount < maxCharsPerLine) {
+                unsigned char c = (unsigned char)displayText[lineEnd];
+                if (c < 0x80) { lineEnd++; charCount++; }
+                else if (c < 0xE0) { lineEnd += 2; charCount += 2; }
+                else if (c < 0xF0) { lineEnd += 3; charCount += 2; }
+                else { lineEnd += 4; charCount += 2; }
+                if (lineEnd > len) lineEnd = len;
+            }
+            std::string line = displayText.substr(pos, lineEnd - pos);
+            drawText(panelX + 15, curY, line.c_str(), GLUT_BITMAP_HELVETICA_12);
+            curY -= lineH;
+            pos = lineEnd;
+        }
+        curY -= 4;  // 消息间距
+    }
+    
+    // 加载中指示器
+    if (g_aiAgent.getState() == aiagent::AgentState::Querying) {
+        glColor3f(0.9f, 0.8f, 0.3f);
+        static int dots = 0;
+        static float dotTimer = 0;
+        dotTimer += 0.016f;
+        if (dotTimer > 0.5f) { dotTimer = 0; dots = (dots + 1) % 4; }
+        char loading[20] = "Thinking";
+        for (int d = 0; d < dots; d++) strcat(loading, ".");
+        drawText(panelX + 15, curY, loading, GLUT_BITMAP_HELVETICA_12);
+    }
+    
+    glDisable(GL_SCISSOR_TEST);
+    
+    // 提示信息（如果没有历史消息）
+    if (history.empty()) {
+        glColor3f(0.5f, 0.55f, 0.6f);
+        drawText(panelX + 30, panelY + panelH / 2 + 10,
+                 "Ask me anything about the game!", GLUT_BITMAP_HELVETICA_12);
+        drawText(panelX + 40, panelY + panelH / 2 - 10,
+                 "e.g. How do I play?", GLUT_BITMAP_HELVETICA_12);
+    }
+    
+    // 恢复矩阵
+    glPopMatrix();
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glEnable(GL_DEPTH_TEST);
+    glEnable(GL_LIGHTING);
+}
+
+// ========== AI Chat: Send Message ==========
+void chatSendMessage() {
+    if (g_chatInputLen == 0 || !g_aiInitialized) return;
+    if (g_aiAgent.getState() == aiagent::AgentState::Querying) return;
+    
+    std::string userMsg(g_chatInput);
+    g_chatInput[0] = '\0';
+    g_chatInputLen = 0;
+    g_chatScrollY = 0;  // 重置滚动
+    
+    g_aiAgent.askAsync(userMsg, [](const std::string& reply, bool success) {
+        if (!success) {
+            printf("AI Agent error: %s\n", g_aiAgent.getLastError().c_str());
+        }
+        glutPostRedisplay();
+    });
+    glutPostRedisplay();
+}
+
 void keyboard(unsigned char k, int x, int y) {
+    // AI聊天输入拦截
+    if (g_chatOpen) {
+        if (k == 27) {  // ESC关闭聊天
+            g_chatOpen = false;
+            glutPostRedisplay();
+            return;
+        }
+        if (k == 13) {  // Enter发送
+            chatSendMessage();
+            return;
+        }
+        if (k == 8) {  // Backspace删除
+            if (g_chatInputLen > 0) {
+                // UTF-8回退：找到最后一个字符的起始位置
+                int i = g_chatInputLen - 1;
+                while (i > 0 && ((unsigned char)g_chatInput[i] & 0xC0) == 0x80) i--;
+                g_chatInput[i] = '\0';
+                g_chatInputLen = i;
+            }
+            glutPostRedisplay();
+            return;
+        }
+        // 普通字符输入
+        if (k >= 32 && g_chatInputLen < 250) {
+            g_chatInput[g_chatInputLen++] = k;
+            g_chatInput[g_chatInputLen] = '\0';
+            glutPostRedisplay();
+        }
+        return;
+    }
+    
+    // F1键不在unsigned char范围，用'/' 或 'h' 替代
+    if (k == '/' || k == 'h' || k == 'H') {
+        if (gameState == STATE_PLAYING || gameState == STATE_WON) {
+            g_chatOpen = !g_chatOpen;
+            glutPostRedisplay();
+            return;
+        }
+    }
+    
     if (gameState == STATE_MENU) {
         if (k == 13) {
             if (menuSelection == 0) { initEasy(); gameState = STATE_PLAYING; }
@@ -3008,6 +3309,21 @@ void init() {
     float shin[] = {70.0f};
     glMaterialfv(GL_FRONT_AND_BACK, GL_SPECULAR, spec);
     glMaterialfv(GL_FRONT_AND_BACK, GL_SHININESS, shin);
+    
+    // 初始化AI Agent
+    printf("\nInitializing AI Chat Agent...\n");
+    g_aiInitialized = g_aiAgent.init("ai_config.txt", "knowledge.txt");
+    if (g_aiInitialized) {
+        g_aiAgent.setSystemPrompt(
+            "你是Water Sort Puzzle游戏的AI助手。用简洁友好的中文回答玩家问题。"
+            "回答控制在3句话以内。必要时参考提供的游戏知识和当前游戏状态。"
+        );
+        g_aiAgent.setContextProvider(getGameStateText);
+        g_aiAgent.ragTopK = 3;
+        printf("AI Agent initialized successfully!\n");
+    } else {
+        printf("AI Agent init failed (config missing?). Chat disabled.\n");
+    }
 }
 
 // ========== Mouse Motion (Hover) ==========
@@ -3071,6 +3387,7 @@ int main(int argc, char** argv) {
     printf("    Mouse - Select/Pour (Hover to highlight)\n");
     printf("    Arrows - Menu/Camera\n");
     printf("    R - Restart, M - Menu\n");
+    printf("    H - AI Chat Assistant\n");
     printf("    ESC - Exit\n\n");
 
     glutInit(&argc, argv);

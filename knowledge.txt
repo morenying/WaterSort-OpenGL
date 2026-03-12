@@ -1,0 +1,39 @@
+## Game Rules
+Water Sort Puzzle is a fun and addictive puzzle game. The goal is to sort colored liquids in bottles until each bottle contains only one color. You can only pour liquid from one bottle to another if the top color matches or the target bottle is empty. Each bottle holds a maximum of 4 layers.
+keywords: rules, how to play, game, tutorial, goal, objective
+
+## Pouring Rules
+You can pour liquid from one bottle to another under these conditions: (1) The target bottle must have space (less than 4 layers). (2) In free pour mode, any color can be poured anywhere. (3) All consecutive same-colored layers on top of the source bottle are poured together. For example, if a bottle has Red-Red-Blue from top, both Red layers pour at once.
+keywords: pour, pouring, how to pour, rules, move
+
+## Strategy - Basics
+Key strategies: (1) Use empty bottles as temporary storage. (2) Try to free up bottles by completing single-color stacks. (3) Focus on colors that are closest to being complete. (4) Avoid mixing colors unnecessarily - think 2-3 moves ahead.
+keywords: strategy, tips, help, how to win, advice, stuck
+
+## Strategy - Advanced
+Advanced techniques: (1) Count the layers for each color to plan which bottle to consolidate into. (2) Prioritize freeing the bottom layers that are blocking other colors. (3) When multiple moves are possible, choose the one that frees the most layers. (4) If you see 4 layers of the same color across different bottles, plan a consolidation path.
+keywords: advanced, expert, technique, pro tips
+
+## Dead End Detection
+A dead end occurs when: (1) All bottles are full (4 layers each) and no top colors match. (2) There are no empty bottles available for temporary storage. (3) Circular dependency: color A blocks B, B blocks C, C blocks A. If stuck, press U to undo the last move.
+keywords: stuck, dead end, blocked, cannot move, undo, hopeless
+
+## Controls
+Keyboard controls: Click a bottle to select it, click another to pour. Press R to restart the level. Press M to go to the menu. Press U to undo. Press arrow keys to rotate the camera. Press F1 to open the AI assistant. Press D to toggle demo mode.
+keywords: controls, keyboard, keys, shortcut, how to
+
+## Difficulty Levels
+Easy: 4 bottles (2 colors + 2 empty). Medium: 6 bottles (4 colors + 2 empty). Hard: 8 bottles (6 colors + 2 empty). Expert: 10-12 bottles (8+ colors + 2 empty). Higher difficulty means more colors and fewer empty bottles for temporary storage.
+keywords: difficulty, easy, medium, hard, expert, level
+
+## Scoring System
+The scoring system evaluates: (1) Moves efficiency - fewer moves = higher score. (2) Time taken - faster = better. (3) Perfect pours - pouring to complete a bottle in one go. (4) Combo moves - consecutive successful pours. (5) Undo penalty - each undo reduces score. Grades range from S (perfect) to D.
+keywords: score, scoring, grade, rating, performance, points
+
+## Color Identification
+The game uses these colors: Red, Blue, Green, Cyan, Yellow, Magenta, Orange, and more depending on the level. Each color is distinct and visible. The liquid has a glossy, semi-transparent appearance with realistic physics-based rendering.
+keywords: color, colors, identify, which color, what color
+
+## About This Game
+Water Sort Puzzle (WaterSort-OpenGL) is an OpenGL-based 3D puzzle game developed by Mo Renying as a Computer Graphics course project at Hefei University of Technology. It features physically-based liquid rendering, GLSL shaders, smooth animations, and an AI assistant powered by a RAG (Retrieval-Augmented Generation) system.
+keywords: about, who made, developer, author, credits, version

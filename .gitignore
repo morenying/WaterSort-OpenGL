@@ -35,3 +35,6 @@ dll/
 Thumbs.db
 desktop.ini
 .DS_Store
+
+# AI Agent config (contains API key)
+ai_config.txt

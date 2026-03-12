@@ -60,11 +60,12 @@
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)..\GL\gl;$(ProjectDir)..\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;freeglut.lib;winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\GL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
@@ -77,18 +78,25 @@
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;FREEGLUT_STATIC;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>false</ConformanceMode>
       <AdditionalIncludeDirectories>$(ProjectDir)..\GL\gl;$(ProjectDir)..\GL;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;freeglut.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>glew32.lib;OpenGL32.Lib;GlU32.Lib;freeglut.lib;winhttp.lib;%(AdditionalDependencies)</AdditionalDependencies>
       <AdditionalLibraryDirectories>$(ProjectDir)..\GL;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="WaterSort.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="ai_agent\ai_agent.h" />
+    <ClInclude Include="ai_agent\json_utils.h" />
+    <ClInclude Include="ai_agent\knowledge_base.h" />
+    <ClInclude Include="ai_agent\llm_client.h" />
   </ItemGroup>
   <ItemDefinitionGroup>
     <PostBuildEvent>
@@ -97,7 +105,9 @@ copy "$(ProjectDir)..\GL\glew32.dll" "$(OutDir)" /Y
 copy "$(ProjectDir)level.txt" "$(OutDir)" /Y
 copy "$(ProjectDir)level1.txt" "$(OutDir)" /Y
 copy "$(ProjectDir)level2.txt" "$(OutDir)" /Y
-copy "$(ProjectDir)level3.txt" "$(OutDir)" /Y</Command>
+copy "$(ProjectDir)level3.txt" "$(OutDir)" /Y
+copy "$(ProjectDir)ai_config.txt" "$(OutDir)" /Y
+copy "$(ProjectDir)knowledge.txt" "$(OutDir)" /Y</Command>
       <Message>Copying files...</Message>
     </PostBuildEvent>
   </ItemDefinitionGroup>
